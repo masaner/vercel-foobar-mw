@@ -6,18 +6,18 @@ const mockLeads = [
   ];
   
   module.exports = (req, res) => {
-    const { count } = req.query;
-    const countString = typeof count === 'string' ? count : (Array.isArray(count) ? count[0] : '10');
-    const countNumber = parseInt(countString, 10);
+    // const { count } = req.query;
+    // const countString = typeof count === 'string' ? count : (Array.isArray(count) ? count[0] : '10');
+    // const countNumber = parseInt(countString, 10);
   
-    // Generate random indices to select random leads
-    const randomIndices = generateRandomIndices(mockLeads.length, countNumber);
+    // // Generate random indices to select random leads
+    // const randomIndices = generateRandomIndices(mockLeads.length, countNumber);
   
-    // Select random leads based on random indices
-    const randomLeads = randomIndices.map(index => mockLeads[index]);
+    // // Select random leads based on random indices
+    // const randomLeads = randomIndices.map(index => mockLeads[index]);
   
     return res.json({
-      leads: randomLeads,
+      leads: mockLeads,
     });
   };
   
