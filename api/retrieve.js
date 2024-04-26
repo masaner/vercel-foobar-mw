@@ -97,8 +97,6 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const jsforce = require('jsforce');
-// const sfbulk = require('node-sf-bulk2');
-const request = require('request');
 
 
 module.exports = async (req, res) => {
@@ -134,41 +132,42 @@ module.exports = async (req, res) => {
     // getToken();
 
     // // Get Salesforce access token
-    let conn;
-    try {
-        console.log('Getting Access Token!');
-        conn = await getAccessToken()
-            .then(conn => {
-                console.log('Yes Baby!');
-                // Use the connection (conn) object here for further operations
-                console.log('Access Token:', conn.accessToken);
-                console.log('Instance URL:', conn.instanceUrl);
-                // console.log('Performing Bulk Query...');
-                // performBulkQuery(conn);
-                const endpoint = `${conn.instanceUrl}/services/data/v59.0/query/?q=SELECT Name,(SELECT Name FROM Contacts) FROM Account`;
+    // let conn;
+    // try {
+    //     console.log('Getting Access Token!');
+    //     await getAccessToken();
+    //     // conn = await getAccessToken()
+    //     //     .then(conn => {
+    //     //         console.log('Yes Baby!');
+    //     //         // Use the connection (conn) object here for further operations
+    //     //         console.log('Access Token:', conn.accessToken);
+    //     //         console.log('Instance URL:', conn.instanceUrl);
+    //     //         // console.log('Performing Bulk Query...');
+    //     //         // performBulkQuery(conn);
+    //     //         const endpoint = `${conn.instanceUrl}/services/data/v59.0/query/?q=SELECT Name,(SELECT Name FROM Contacts) FROM Account`;
 
-                const options = {
-                  url: endpoint,
-                  headers: {
-                    'Authorization': `Bearer ${conn.accessToken}`
-                  }
-                };
+    //     //         const options = {
+    //     //           url: endpoint,
+    //     //           headers: {
+    //     //             'Authorization': `Bearer ${conn.accessToken}`
+    //     //           }
+    //     //         };
                 
-                request.get(options, function (error, response, body) {
-                  if (error) {
-                    console.error('Error:', error);
-                    return;
-                  }
-                  console.log('Response:', body);
-                });
-            })
-            .catch(err => {
-                console.error('Error during authentication:', err);
-            });
-    } catch (error) {
-        console.error("Error getting access token:", error);
-        return res.status(500).json({ error: "Internal server error" });
-    }
+    //     //         request.get(options, function (error, response, body) {
+    //     //           if (error) {
+    //     //             console.error('Error:', error);
+    //     //             return;
+    //     //           }
+    //     //           console.log('Response:', body);
+    //     //         });
+    //     //     })
+    //     //     .catch(err => {
+    //     //         console.error('Error during authentication:', err);
+    //     //     });
+    // } catch (error) {
+    //     console.error("Error getting access token:", error);
+    //     return res.status(500).json({ error: "Internal server error" });
+    // }
 
     // // Use the access token to connect to Salesforce
     // const bulkconnect = {
@@ -238,29 +237,78 @@ module.exports = async (req, res) => {
 // }
 
 
-async function getAccessToken() {
-    console.log('Authenticating Now...!!!');
-    const conn = new jsforce.Connection({
-        oauth2: {
-            // you can change loginUrl to connect to sandbox or prerelease env.
-            loginUrl: process.env.loginUrl,
-            clientId: process.env.clientId,
-            clientSecret: process.env.clientSecret,
-            redirectUri: process.env.redirectUri // This might need adjustment
-        }
-    });
+// async function getAccessToken() {
+//     console.log('Authenticating Now...!!!');
 
-    return new Promise((resolve, reject) => {
-        conn.login(process.env.username, process.env.password, function(err, userInfo) {
-            console.log(userInfo);
-            console.log('Hello World!');
-            if (err) { return reject(err); }
-            console.log(conn.accessToken);
-            console.log(conn.instanceUrl);
-            resolve(conn);
-        });
-    });
-}
+//     //GET TOKEN
+//     const formData = `grant_type=password&client_id=${process.env.clientId}&client_secret=${process.env.clientSecret}&username=${process.env.username}&password=${process.env.password}`;
+
+//     // Define the options for the POST request
+//     const options = {
+//         hostname: 'login.salesforce.com',
+//         port: 443,
+//         path: '/services/oauth2/token',
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/x-www-form-urlencoded', // Specify the content type of the request body
+//         }
+//     };
+
+//     // Create the request object
+//     const req = https.request(options, (res) => {
+//         console.log('statusCode:', res.statusCode);
+//         console.log('headers:', res.headers);
+
+//         // Accumulate the response data
+//         let responseData = '';
+//         res.on('data', (chunk) => {
+//             responseData += chunk;
+//         });
+
+//         // Log the complete response
+//         res.on('end', () => {
+//             console.log('Response:', responseData);
+//             // Parse the response data if it's JSON
+//             try {
+//                 const jsonResponse = JSON.parse(responseData);
+//                 console.log('Parsed Response:', jsonResponse);
+//             } catch (error) {
+//                 console.error('Error parsing JSON response:', error);
+//             }
+//         });
+//     });
+
+//     // Handle errors during the request
+//     req.on('error', (e) => {
+//         console.error('Error:', e);
+//     });
+
+//     // Send the request body (if any)
+//     req.write(formData);
+//     req.end(); // End the request
+//     //
+
+
+//     const conn = new jsforce.Connection({
+//         oauth2: {
+//             // you can change loginUrl to connect to sandbox or prerelease env.
+//             loginUrl: process.env.SF_LOGIN_URL,
+//             clientId: process.env.SF_CLIENT_ID,
+//             clientSecret: process.env.SF_CLIENT_SECRET,
+//             redirectUri: process.env.SF_REDIRECT_URI // This might need adjustment
+//         }
+//     });
+
+//     return new Promise((resolve, reject) => {
+//         conn.login(process.env.SF_USERNAME, process.env.SF_PASSWORD, function(err, userInfo) {
+//             console.log('Hello World!');
+//             if (err) { return reject(err); }
+//             console.log(conn.accessToken);
+//             console.log(conn.instanceUrl);
+//             resolve(conn);
+//         });
+//     });
+// }
 
 // async function getToken() {
 //     const loginUrl = process.env.loginUrl;

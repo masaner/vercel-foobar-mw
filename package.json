@@ -13,9 +13,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "jsforce": "^1.11.1",
-    "node-sf-bulk2": "^0.0.23",
-    "request": "^2.88.2"
+    "jsforce": "^1.11.1"
   },
   "devDependencies": {
     "@vercel/node": "^2.9.6"
