@@ -65,9 +65,7 @@ module.exports = async (req, res) => {
 
     function getAccessToken() {
         console.log('Authenticating...');
-        process.env.PORT
-        var jsforce2 = require('jsforce');
-        var conn = new jsforce2.Connection({
+        var conn = new jsforce.Connection({
         oauth2 : {
             // you can change loginUrl to connect to sandbox or prerelease env.
             loginUrl : process.env.loginUrl,
