@@ -14,7 +14,7 @@ app.get("/salesforce", async (req, res) => {
       const accessToken = await salesforce.getAccessToken();
       res.json({ accessToken });
   } catch (err) {
-      res.status(500).json({ error: "Failed to get Salesforce access token" });
+      res.status(500).json({ error: "Failed to get Salesforce access token" + err });
   }
 });
 
