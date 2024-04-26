@@ -86,19 +86,10 @@ module.exports = async (req, res) => {
                             if (response.id) {
                                 // read csv data from the local file system
                                 const csvData = convertToCSV(leadRecords);
-                                // Write CSV data to a temporary file
-                                const tempFilePath = "./temp_leads.csv"; // Path to temporary CSV file
-                                fs.writeFileSync(tempFilePath, csvData);
-
-                                // Read CSV data from the temporary file
-                                const data = fs.readFileSync(
-                                    tempFilePath,
-                                    "utf-8"
-                                );
 
                                 const status = await bulkrequest.uploadJobData(
                                     response.contentUrl,
-                                    data
+                                    csvData
                                 );
                                 if (status === 201) {
                                     // close the job for processing
@@ -107,8 +98,6 @@ module.exports = async (req, res) => {
                                         "UploadComplete"
                                     );
                                 }
-
-                                fs.unlinkSync(tempFilePath);
                             }
                         } catch (ex) {
                             console.log(ex);
