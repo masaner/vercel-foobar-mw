@@ -97,7 +97,9 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const jsforce = require('jsforce');
-const sfbulk = require('node-sf-bulk2');
+// const sfbulk = require('node-sf-bulk2');
+const request = require('request');
+
 
 module.exports = async (req, res) => {
     const { selectedIds } = req.body;
@@ -112,7 +114,7 @@ module.exports = async (req, res) => {
         // If selectedIds exist, filter the leads based on the selected IDs
         let selectedLeads = [];
         if (selectedIds) {
-            console.log(selectedIds);
+            // console.log(selectedIds);
             const idArray = selectedIds
                 .split(",")
                 .map((id) => parseInt(id.trim()));
@@ -129,20 +131,36 @@ module.exports = async (req, res) => {
         httpResponse = res.status(500).json({ error: "Internal server error" });
     }
 
-    // Get Salesforce access token
+    // getToken();
+
+    // // Get Salesforce access token
     let conn;
     try {
         console.log('Getting Access Token!');
         conn = await getAccessToken()
             .then(conn => {
-                console.log(conn);
-                console.log(conn.accessToken);
-                console.log(conn.instanceUrl);
+                console.log('Yes Baby!');
                 // Use the connection (conn) object here for further operations
                 console.log('Access Token:', conn.accessToken);
                 console.log('Instance URL:', conn.instanceUrl);
                 // console.log('Performing Bulk Query...');
                 // performBulkQuery(conn);
+                const endpoint = `${conn.instanceUrl}/services/data/v59.0/query/?q=SELECT Name,(SELECT Name FROM Contacts) FROM Account`;
+
+                const options = {
+                  url: endpoint,
+                  headers: {
+                    'Authorization': `Bearer ${conn.accessToken}`
+                  }
+                };
+                
+                request.get(options, function (error, response, body) {
+                  if (error) {
+                    console.error('Error:', error);
+                    return;
+                  }
+                  console.log('Response:', body);
+                });
             })
             .catch(err => {
                 console.error('Error during authentication:', err);
@@ -176,26 +194,26 @@ module.exports = async (req, res) => {
     // ... (rest of the code for returning selected leads remains the same)
 };
 
-async function performBulkQuery(conn) {
-    try {
-        const bulkconnect = {
-            accessToken: conn.accessToken,
-            apiVersion: '42.0',
-            instanceUrl: conn.instanceUrl
-        };
+// async function performBulkQuery(conn) {
+//     try {
+//         const bulkconnect = {
+//             accessToken: conn.accessToken,
+//             apiVersion: '42.0',
+//             instanceUrl: conn.instanceUrl
+//         };
 
-        const bulkapi2 = new sfbulk.BulkAPI2(bulkconnect);
-        const queryInput = {
-            query: 'Select Id from Account',
-            operation: 'query'
-        };
+//         const bulkapi2 = new sfbulk.BulkAPI2(bulkconnect);
+//         const queryInput = {
+//             query: 'Select Id from Account',
+//             operation: 'query'
+//         };
 
-        const response = await bulkapi2.submitBulkQueryJob(queryInput);
-        console.log(response);
-    } catch (ex) {
-        console.error('Error performing Bulk API query:', ex);
-    }
-}
+//         const response = await bulkapi2.submitBulkQueryJob(queryInput);
+//         console.log(response);
+//     } catch (ex) {
+//         console.error('Error performing Bulk API query:', ex);
+//     }
+// }
 
 // async function getAccessToken() {
 //     console.log('Authenticating...');
@@ -221,7 +239,7 @@ async function performBulkQuery(conn) {
 
 
 async function getAccessToken() {
-    console.log('Authenticating...!!!');
+    console.log('Authenticating Now...!!!');
     const conn = new jsforce.Connection({
         oauth2: {
             // you can change loginUrl to connect to sandbox or prerelease env.
@@ -234,6 +252,8 @@ async function getAccessToken() {
 
     return new Promise((resolve, reject) => {
         conn.login(process.env.username, process.env.password, function(err, userInfo) {
+            console.log(userInfo);
+            console.log('Hello World!');
             if (err) { return reject(err); }
             console.log(conn.accessToken);
             console.log(conn.instanceUrl);
@@ -241,3 +261,30 @@ async function getAccessToken() {
         });
     });
 }
+
+// async function getToken() {
+//     const loginUrl = process.env.loginUrl;
+//     const clientId = process.env.clientId;
+//     const clientSecret = process.env.clientSecret;
+//     const username = process.env.username;
+//     const password = process.env.password;
+//     const grantType = 'password';
+
+//     try {
+//         const response = await axios.post(loginUrl, null, {
+//             params: {
+//                 grant_type: grantType,
+//                 client_id: clientId,
+//                 client_secret: clientSecret,
+//                 username: username,
+//                 password: password
+//             }
+//         });
+//         console.log(response);
+//         console.log(response.data);
+//         console.log('Access Token:', response.data.access_token);
+//         console.log('Instance URL:', response.data.instance_url);
+//     } catch (error) {
+//         console.error('Error getting access token:', error.response.data);
+//     }
+// }
