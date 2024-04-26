@@ -100,7 +100,8 @@ module.exports = async (req, res) => {
                                 }
                             }
                         } catch (ex) {
-                            console.log(ex);
+                            console.log("Error:", ex);
+                            console.log("Response data:", ex.response.data);
                         }
                     })();
                 }
