@@ -98,6 +98,7 @@ const fs = require("fs");
 const path = require("path");
 const jsforce = require('jsforce');
 const axios = require('axios');
+const sfbulk = require('node-sf-bulk2');
 
 
 module.exports = async (req, res) => {
@@ -138,26 +139,47 @@ module.exports = async (req, res) => {
         console.log('Getting Access Token!');
         conn = await getAccessToken()
             .then(conn => {
-                console.log('Yes Baby!');
-                // Use the connection (conn) object here for further operations
-                console.log('Access Token:', conn.accessToken);
-                console.log('Instance URL:', conn.instanceUrl);
-                
-                const endpoint = `${conn.instanceUrl}/services/data/v59.0/query/?q=SELECT Id,Name,(SELECT Id,Name FROM Contacts) FROM Account`;
+                // Use the access token to connect to Salesforce
+                // const conn = new jsforce.Connection({});
+                // await conn.login(process.env.username, process.env.password);
 
-                const config = {
-                    headers: {
-                        'Authorization': `Bearer ${conn.accessToken}`
-                    }
+                const bulkconnect = {
+                    'accessToken': conn.accessToken,
+                    'apiVersion': '59.0',
+                    'instanceUrl': conn.instanceUrl
                 };
 
-                axios.get(endpoint, config)
-                    .then(response => {
-                        console.log('Response:', response.data);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error.response.data);
-                    });
+                try {
+                    const bulkapi2 = new sfbulk.BulkAPI2(bulkconnect);
+                    const queryInput = {
+                        'query': 'Select Id from Account',
+                        'operation': 'query'
+                    };
+                    const response = bulkapi2.submitBulkQueryJob(queryInput);
+                    console.log(response);
+                } catch (ex) {
+                    console.error(ex);
+                }
+                // console.log('Yes Baby!');
+                // // Use the connection (conn) object here for further operations
+                // console.log('Access Token:', conn.accessToken);
+                // console.log('Instance URL:', conn.instanceUrl);
+                
+                // const endpoint = `${conn.instanceUrl}/services/data/v59.0/query/?q=SELECT Id,Name,(SELECT Id,Name FROM Contacts) FROM Account`;
+
+                // const config = {
+                //     headers: {
+                //         'Authorization': `Bearer ${conn.accessToken}`
+                //     }
+                // };
+
+                // axios.get(endpoint, config)
+                //     .then(response => {
+                //         console.log('Response:', response.data);
+                //     })
+                //     .catch(error => {
+                //         console.error('Error:', error.response.data);
+                //     });
             })
             .catch(err => {
                 console.error('Error during authentication:', err);
@@ -167,10 +189,13 @@ module.exports = async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 
-    // // Use the access token to connect to Salesforce
+    // Use the access token to connect to Salesforce
+    // const conn = new jsforce.Connection({});
+    // await conn.login(process.env.username, process.env.password);
+
     // const bulkconnect = {
     //     'accessToken': conn.accessToken,
-    //     'apiVersion': '51.0',
+    //     'apiVersion': '59.0',
     //     'instanceUrl': conn.instanceUrl
     // };
 
@@ -180,7 +205,7 @@ module.exports = async (req, res) => {
     //         'query': 'Select Id from Account',
     //         'operation': 'query'
     //     };
-    //     const response = await bulkapi2.submitBulkQueryJob(queryInput);
+    //     const response = bulkapi2.submitBulkQueryJob(queryInput);
     //     console.log(response);
     // } catch (ex) {
     //     console.error(ex);
@@ -309,11 +334,12 @@ async function getAccessToken() {
 // }
 
 // async function getToken() {
-//     const loginUrl = process.env.loginUrl;
-//     const clientId = process.env.clientId;
-//     const clientSecret = process.env.clientSecret;
-//     const username = process.env.username;
-//     const password = process.env.password;
+//     console.log('In Get Token!!!');
+//     const loginUrl = process.env.SF_LOGIN_URL;
+//     const clientId = process.env.SF_CLIENT_ID;
+//     const clientSecret = process.env.SF_CLIENT_SECRET;
+//     const username = process.env.SF_USERNAME;
+//     const password = process.env.SF_PASSWORD;
 //     const grantType = 'password';
 
 //     try {
@@ -326,8 +352,8 @@ async function getAccessToken() {
 //                 password: password
 //             }
 //         });
-//         console.log(response);
-//         console.log(response.data);
+//         // console.log(response);
+//         // console.log(response.data);
 //         console.log('Access Token:', response.data.access_token);
 //         console.log('Instance URL:', response.data.instance_url);
 //     } catch (error) {
