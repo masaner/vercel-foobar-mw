@@ -1,17 +1,4 @@
 {
     "version": 2,
-    "routes": [
-        {
-            "src": "/",
-            "dest": "/api"
-        },
-        {
-            "src": "/leads",
-            "dest": "/api/leads"
-        },
-        {
-            "src": "/retrieve",
-            "dest": "/api/retrieve"
-        }
-    ]
+    "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
