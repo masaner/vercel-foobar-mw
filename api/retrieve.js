@@ -21,9 +21,6 @@ module.exports = async (req, res) => {
             selectedLeads = jsonData.filter((lead) =>
                 idArray.includes(lead.id)
             );
-            console.log(idArray);
-            console.log(selectedLeads);
-
         } else {
             // If no selectedIds, return an empty array
             selectedLeads = [];
