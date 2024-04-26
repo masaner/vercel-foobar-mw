@@ -1,0 +1,13 @@
+[
+    { "id": 1, "name": "John Doe", "email": "john@example.com", "company": "ABC Inc." },
+    { "id": 2, "name": "Jane Smith", "email": "jane@example.com", "company": "XYZ Corp" },
+    { "id": 3, "name": "Alice Johnson", "email": "alice@example.com", "company": "123 Company" },
+    { "id": 4, "name": "Bob Brown", "email": "bob@example.com", "company": "456 Corp" },
+    { "id": 5, "name": "Emily Davis", "email": "emily@example.com", "company": "789 Enterprises" },
+    { "id": 6, "name": "Michael Wilson", "email": "michael@example.com", "company": "Acme Corp" },
+    { "id": 7, "name": "Sarah Lee", "email": "sarah@example.com", "company": "Tech Solutions Ltd" },
+    { "id": 8, "name": "David Clark", "email": "david@example.com", "company": "Global Innovations Inc" },
+    { "id": 9, "name": "Jennifer Taylor", "email": "jennifer@example.com", "company": "Future Enterprises" },
+    { "id": 10, "name": "Chris Martinez", "email": "chris@example.com", "company": "Bright Industries" }
+  ]
+  
