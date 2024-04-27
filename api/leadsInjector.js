@@ -318,6 +318,7 @@ const fs = require("fs").promises;
 const path = require("path");
 const jsforce = require("jsforce");
 const sfbulk = require("node-sf-bulk2");
+const axios = require('axios');
 
 module.exports = async (req, res) => {
     const { selectedIds } = req.body;
@@ -371,9 +372,16 @@ const MAX_RECORDS_FOR_CREATE = 5;
 
 async function createLeads(conn, leadRecords) {
     try {
-        const { id, success } = await conn.sobject("Lead").create(leadRecords);
-        if (success) {
-            console.log("Created record id : " + id);
+        const { err, rets } = await conn.sobject("Lead").create(leadRecords);
+        if (err) {
+            return console.error(err);
+        }
+        for (var i = 0; i < rets.length; i++) {
+            if (rets[i].success) {
+                console.log(
+                    "Created record id : " + rets[i].id
+                );
+            }
         }
     } catch (error) {
         console.error("Error creating leads:", error);
@@ -394,7 +402,11 @@ async function bulkInsertLeads(conn, leadRecords) {
             operation: "insert",
         };
         const response = await bulkrequest.createDataUploadJob(jobRequest);
+        console.log('Created Job');
+
         if (response.id) {
+            console.log('Created Job Id');
+
             const csvData = convertToCSV(leadRecords);
             const tempFilePath = "./temp_leads.csv";
             await fs.writeFile(tempFilePath, csvData);
@@ -405,7 +417,9 @@ async function bulkInsertLeads(conn, leadRecords) {
                 response.contentUrl,
                 data
             );
+            console.log(status);
             if (status === 201) {
+                console.log('UploadComplete!');
                 await bulkrequest.closeOrAbortJob(response.id, "UploadComplete");
             }
 
