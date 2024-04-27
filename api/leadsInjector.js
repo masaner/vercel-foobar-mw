@@ -6,7 +6,7 @@ const jsforce = require("jsforce");
 const sfbulk = require("node-sf-bulk2");
 
 module.exports = async (req, res) => {
-    const { selectedIds } = req.body;
+    const { selectedIds, salesRepName } = req.body;
     let httpResponse;
     const filePath = path.join(__dirname, "..", "data", "leads.json");
     let selectedLeads = [];
@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
             LeadSource: "Foobar",
             Company: lead.company,
             Email: lead.email,
+            Sales_Rep_Name__c: salesRepName
         }));
 
         let jobId;
