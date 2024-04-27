@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "646ef22e-c0a9-4d97-8c04-51e091c6491e",
+		"name": "Foobar - Canonical",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17726620"
+	},
+	"item": [
+		{
+			"name": "Root",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://foobar-vercel.vercel.app/",
+					"protocol": "https",
+					"host": [
+						"foobar-vercel",
+						"vercel",
+						"app"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Leads",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://foobar-vercel.vercel.app/leads",
+					"protocol": "https",
+					"host": [
+						"foobar-vercel",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"leads"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "All Leads",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://foobar-vercel.vercel.app/leads",
+							"protocol": "https",
+							"host": [
+								"foobar-vercel",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"leads"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Age",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "br"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 27 Apr 2024 15:57:39 GMT"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"849-cdQJeSTkvKqOUtfX5J01w5Q4g+w\""
+						},
+						{
+							"key": "Server",
+							"value": "Vercel"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63072000; includeSubDomains; preload"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "X-Vercel-Cache",
+							"value": "MISS"
+						},
+						{
+							"key": "X-Vercel-Id",
+							"value": "fra1::iad1::w4pm7-1714233459264-7c1225f84fd8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"firstname\": \"John\",\n        \"lastname\": \"Doe\",\n        \"email\": \"john@example.com\",\n        \"company\": \"ABC Inc.\"\n    },\n    {\n        \"id\": 2,\n        \"firstname\": \"Jane\",\n        \"lastname\": \"Smith\",\n        \"email\": \"jane@example.com\",\n        \"company\": \"XYZ Corp\"\n    },\n    {\n        \"id\": 3,\n        \"firstname\": \"Alice\",\n        \"lastname\": \"Johnson\",\n        \"email\": \"alice@example.com\",\n        \"company\": \"123 Company\"\n    },\n    {\n        \"id\": 4,\n        \"firstname\": \"Bob\",\n        \"lastname\": \"Brown\",\n        \"email\": \"bob@example.com\",\n        \"company\": \"456 Corp\"\n    },\n    {\n        \"id\": 5,\n        \"firstname\": \"Emily\",\n        \"lastname\": \"Davis\",\n        \"email\": \"emily@example.com\",\n        \"company\": \"789 Enterprises\"\n    },\n    {\n        \"id\": 6,\n        \"firstname\": \"Michael\",\n        \"lastname\": \"Wilson\",\n        \"email\": \"michael@example.com\",\n        \"company\": \"Acme Corp\"\n    },\n    {\n        \"id\": 7,\n        \"firstname\": \"Sarah\",\n        \"lastname\": \"Lee\",\n        \"email\": \"sarah@example.com\",\n        \"company\": \"Tech Solutions Ltd\"\n    },\n    {\n        \"id\": 8,\n        \"firstname\": \"David\",\n        \"lastname\": \"Clark\",\n        \"email\": \"david@example.com\",\n        \"company\": \"Global Innovations Inc\"\n    },\n    {\n        \"id\": 9,\n        \"firstname\": \"Jennifer\",\n        \"lastname\": \"Taylor\",\n        \"email\": \"jennifer@example.com\",\n        \"company\": \"Future Enterprises\"\n    },\n    {\n        \"id\": 10,\n        \"firstname\": \"Chris\",\n        \"lastname\": \"Martinez\",\n        \"email\": \"chris@example.com\",\n        \"company\": \"Bright Industries\"\n    },\n    {\n        \"id\": 11,\n        \"firstname\": \"William\",\n        \"lastname\": \"Anderson\",\n        \"email\": \"william@example.com\",\n        \"company\": \"Sunrise Corporation\"\n    },\n    {\n        \"id\": 12,\n        \"firstname\": \"Olivia\",\n        \"lastname\": \"Brown\",\n        \"email\": \"olivia@example.com\",\n        \"company\": \"Moonlight Ltd\"\n    },\n    {\n        \"id\": 13,\n        \"firstname\": \"Daniel\",\n        \"lastname\": \"Wilson\",\n        \"email\": \"daniel@example.com\",\n        \"company\": \"Star Solutions\"\n    },\n    {\n        \"id\": 14,\n        \"firstname\": \"Sophia\",\n        \"lastname\": \"Taylor\",\n        \"email\": \"sophia@example.com\",\n        \"company\": \"Galaxy Innovations\"\n    },\n    {\n        \"id\": 15,\n        \"firstname\": \"James\",\n        \"lastname\": \"Johnson\",\n        \"email\": \"james@example.com\",\n        \"company\": \"Cosmic Enterprises\"\n    },\n    {\n        \"id\": 16,\n        \"firstname\": \"Emma\",\n        \"lastname\": \"Lee\",\n        \"email\": \"emma@example.com\",\n        \"company\": \"Tech Galaxy Inc\"\n    },\n    {\n        \"id\": 17,\n        \"firstname\": \"Alexander\",\n        \"lastname\": \"Clark\",\n        \"email\": \"alexander@example.com\",\n        \"company\": \"Future Technologies\"\n    },\n    {\n        \"id\": 18,\n        \"firstname\": \"Mia\",\n        \"lastname\": \"Martinez\",\n        \"email\": \"mia@example.com\",\n        \"company\": \"Bright Innovations\"\n    },\n    {\n        \"id\": 19,\n        \"firstname\": \"Ethan\",\n        \"lastname\": \"Harris\",\n        \"email\": \"ethan@example.com\",\n        \"company\": \"Sunrise Solutions\"\n    },\n    {\n        \"id\": 20,\n        \"firstname\": \"Ava\",\n        \"lastname\": \"Garcia\",\n        \"email\": \"ava@example.com\",\n        \"company\": \"Moonlight Innovations\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Send Leads to Salesforce",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"selectedIds\": \"1,2,3\",\n    \"salesRepName\": \"Canonical - Import Leads from Foobar\",\n    \"linkWithId\": \"randomLinkingId\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://foobar-vercel.vercel.app/leads",
+					"protocol": "https",
+					"host": [
+						"foobar-vercel",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"leads"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Inject Salesforce",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"selectedIds\": \"1,2,3\",\n    \"salesRepName\": \"Canonical - Import Leads from Foobar\",\n    \"linkWithId\": \"randomLinkingId\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://foobar-vercel.vercel.app/leads",
+							"protocol": "https",
+							"host": [
+								"foobar-vercel",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"leads"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "370"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 27 Apr 2024 15:58:43 GMT"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"172-bgc61E8pBVPd5XqZaNDOfirTcns\""
+						},
+						{
+							"key": "Server",
+							"value": "Vercel"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63072000; includeSubDomains; preload"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "X-Vercel-Cache",
+							"value": "MISS"
+						},
+						{
+							"key": "X-Vercel-Id",
+							"value": "fra1::iad1::fd9pt-1714233520762-56fc16aa751f"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"jobId\": \"750Qy000004hXL5IAM\",\n    \"referenceId\": \"randomLinkingId\",\n    \"selectedLeads\": [\n        {\n            \"id\": 1,\n            \"firstname\": \"John\",\n            \"lastname\": \"Doe\",\n            \"email\": \"john@example.com\",\n            \"company\": \"ABC Inc.\"\n        },\n        {\n            \"id\": 2,\n            \"firstname\": \"Jane\",\n            \"lastname\": \"Smith\",\n            \"email\": \"jane@example.com\",\n            \"company\": \"XYZ Corp\"\n        },\n        {\n            \"id\": 3,\n            \"firstname\": \"Alice\",\n            \"lastname\": \"Johnson\",\n            \"email\": \"alice@example.com\",\n            \"company\": \"123 Company\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
