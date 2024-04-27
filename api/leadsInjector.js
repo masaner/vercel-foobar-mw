@@ -543,7 +543,7 @@ module.exports = async (req, res) => {
                     console.log('UploadComplete!');
                     await bulkrequest.closeOrAbortJob(jobId, "UploadComplete");
                 }
-                await fs.unlink(tempFilePath);
+                // await fs.unlink(tempFilePath);
             }
         }
 
