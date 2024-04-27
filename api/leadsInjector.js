@@ -83,6 +83,7 @@ module.exports = async (req, res) => {
                                 await bulkrequest.createDataUploadJob(
                                     jobRequest
                                 );
+                            console.log(response);
                             if (response.id) {
                                 // read csv data from the local file system
                                 const csvData = convertToCSV(leadRecords);
@@ -91,12 +92,15 @@ module.exports = async (req, res) => {
                                     response.contentUrl,
                                     csvData
                                 );
+                                console.log(status);
                                 if (status === 201) {
                                     // close the job for processing
-                                    await bulkrequest.closeOrAbortJob(
+                                    const closeRes = await bulkrequest.closeOrAbortJob(
                                         response.id,
                                         "UploadComplete"
                                     );
+
+                                    console.log(closeRes);
                                 }
                             }
                         } catch (ex) {
