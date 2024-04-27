@@ -6,7 +6,7 @@ const jsforce = require("jsforce");
 const sfbulk = require("node-sf-bulk2");
 
 module.exports = async (req, res) => {
-    const { selectedIds, salesRepName } = req.body;
+    const { selectedIds, salesRepName, inputJobId } = req.body;
     let httpResponse;
     const filePath = path.join(__dirname, "..", "data", "leads.json");
     let selectedLeads = [];
@@ -24,12 +24,20 @@ module.exports = async (req, res) => {
         }
         const conn = await getAccessToken();
 
+        let refJobId;
+        if (inputJobId === null) {
+            refJobId = generateRandomString(18);
+        } else {
+            refJobId = inputJobId;
+        }
+
         let leadRecords = selectedLeads.map((lead) => ({
             LastName: lead.lastname,
             LeadSource: "Foobar",
             Company: lead.company,
             Email: lead.email,
-            Sales_Rep_Name__c: salesRepName
+            Sales_Rep_Name__c: salesRepName,
+            Linked_Job_Id__c: refJobId,
         }));
 
         let jobId;
@@ -59,6 +67,7 @@ module.exports = async (req, res) => {
                                     insertedRecordIds.push(rets[i].id);
                                     selectedLeads[i].sf_id = rets[i].id;
                                     selectedLeads[i].created = true;
+                                    selectedLeads[i].referenceId = refJobId;
                                 } else {
                                     console.error(
                                         "Failed to create record:",
@@ -66,8 +75,10 @@ module.exports = async (req, res) => {
                                     );
                                     selectedLeads[i].sf_id = null;
                                     selectedLeads[i].created = false;
-                                    selectedLeads[i].error = rets[i].errors[0].statusCode;
-                                    selectedLeads[i].error_message = rets[i].errors[0].message;
+                                    selectedLeads[i].error =
+                                        rets[i].errors[0].statusCode;
+                                    selectedLeads[i].error_message =
+                                        rets[i].errors[0].message;
                                 }
                             }
                             resolve(insertedRecordIds);
@@ -103,13 +114,13 @@ module.exports = async (req, res) => {
                     response.contentUrl,
                     csvData
                 );
-                console.log(status);
                 if (status === 201) {
                     console.log("UploadComplete!");
                     await bulkrequest.closeOrAbortJob(jobId, "UploadComplete");
                 }
                 const responseJson = {
                     jobId: jobId,
+                    referenceId: refJobId,
                     selectedLeads: selectedLeads,
                 };
                 httpResponse = res.json(responseJson);
@@ -123,7 +134,7 @@ module.exports = async (req, res) => {
     return httpResponse;
 };
 
-const MAX_RECORDS_FOR_CREATE = 5;
+const MAX_RECORDS_FOR_CREATE = 2;
 
 function convertToCSV(dataArray) {
     const headers = Object.keys(dataArray[0]).join(",");
@@ -153,4 +164,12 @@ async function getAccessToken() {
             }
         );
     });
+}
+
+function generateRandomString(length) {
+    const timestamp = Date.now().toString(36);
+    const randomPart = [...Array(length - timestamp.length)]
+        .map(() => Math.random().toString(36)[2])
+        .join("");
+    return timestamp + randomPart;
 }
