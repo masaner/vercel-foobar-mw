@@ -6,7 +6,7 @@ const jsforce = require("jsforce");
 const sfbulk = require("node-sf-bulk2");
 
 module.exports = async (req, res) => {
-    const { selectedIds, salesRepName, inputJobId } = req.body;
+    const { selectedIds, salesRepName, linkWithId } = req.body;
     let httpResponse;
     const filePath = path.join(__dirname, "..", "data", "leads.json");
     let selectedLeads = [];
@@ -25,10 +25,10 @@ module.exports = async (req, res) => {
         const conn = await getAccessToken();
 
         let refJobId;
-        if (inputJobId === null) {
+        if (linkWithId === null) {
             refJobId = generateRandomString(18);
         } else {
-            refJobId = inputJobId;
+            refJobId = linkWithId;
         }
 
         let leadRecords = selectedLeads.map((lead) => ({
