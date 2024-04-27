@@ -525,12 +525,20 @@ module.exports = async (req, res) => {
             const response = await bulkrequest.createDataUploadJob(jobRequest);
             if (response.id) {
                 jobId = response.id; // Get the job ID
-                console.log('Job ID:', jobId);
-                const csvData = convertToCSV(leadRecords);
-                const tempFilePath = "./temp_leads.csv";
-                await fs.writeFile(tempFilePath, csvData);
-                const data = await fs.readFile(tempFilePath, "utf-8");
-                const status = await bulkrequest.uploadJobData(response.contentUrl, data);
+                // console.log('Job ID:', jobId);
+                // const csvData = convertToCSV(leadRecords);
+                // const tempFilePath = "./temp_leads.csv";
+                // await fs.writeFile(tempFilePath, csvData);
+                // const data = await fs.readFile(tempFilePath, "utf-8");
+                // const status = await bulkrequest.uploadJobData(response.contentUrl, data);
+                // read csv data from the local file system
+                    const csvData = convertToCSV(leadRecords);
+
+                    const status = await bulkrequest.uploadJobData(
+                        response.contentUrl,
+                        csvData
+                    );
+                    console.log(status);
                 if (status === 201) {
                     console.log('UploadComplete!');
                     await bulkrequest.closeOrAbortJob(jobId, "UploadComplete");
