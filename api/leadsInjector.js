@@ -42,10 +42,6 @@ module.exports = async (req, res) => {
 
         let jobId;
         if (leadRecords.length <= MAX_RECORDS_FOR_CREATE) {
-            leadRecords = leadRecords.map((record) => ({
-                ...record,
-                batch_Import__c: false,
-            }));
             let insertedRecordIds = [];
             try {
                 const result = await new Promise((resolve, reject) => {
@@ -91,10 +87,6 @@ module.exports = async (req, res) => {
                 console.error("Error:", error);
             }
         } else {
-            leadRecords = leadRecords.map((record) => ({
-                ...record,
-                batch_Import__c: true,
-            }));
             const bulkconnect = {
                 accessToken: conn.accessToken,
                 apiVersion: "59.0",
