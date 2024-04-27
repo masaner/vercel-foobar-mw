@@ -6,11 +6,21 @@ app.use(express.json());
 
 const handleGetLeads = require("./leads");
 const injectSalesforceWithLeads = require("./leadsInjector");
+const salesforce = require("./salesforce");
 
 const PORT = process.env.PORT || 4040;
 
 app.get("/leads", handleGetLeads);
 app.post("/leads", injectSalesforceWithLeads);
+
+app.get("/salesforce", async (req, res) => {
+  try {
+      const accessToken = await salesforce.getAccessToken();
+      res.json({ accessToken });
+  } catch (err) {
+      res.status(500).json({ error: "Failed to get Salesforce access token" + err });
+  }
+});
 
 app.get("/", async (req, res) => {
     res.send("Hello Canonical!");
